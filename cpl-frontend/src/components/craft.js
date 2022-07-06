@@ -1,8 +1,8 @@
 
-const Craft = ({id, name, crea, diff, sour, reag}) => {
+const Craft = (props) => {
   return (
     <div>
-      {`${name} -> ${crea.id}`}
+      {`${props.id} ${props.name} -> ${props.crea.id} ${props.cname} `}
     </div>
   )
 }

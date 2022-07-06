@@ -1,4 +1,5 @@
 const engineeringItems = require("../static/items/engineering.json");
+const enchantingItems = require("../static/items/enchanting.json");
 const auctionData = require("../services/auction-data");
 const vendor = require("../static/items/vendor.json");
 
@@ -11,4 +12,13 @@ for (const key in engineeringItems) {
   }
 }
 
-module.exports = { engineeringItems };
+for (const key in enchantingItems) {
+  if (!vendor[enchantingItems[key].name]) {
+    delete enchantingItems[key].buy;
+    if (auctionData[key]) {
+      enchantingItems[key].auction = auctionData[key];
+    }
+  }
+}
+
+module.exports = { engineeringItems, enchantingItems };
