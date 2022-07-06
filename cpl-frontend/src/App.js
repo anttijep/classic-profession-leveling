@@ -1,7 +1,8 @@
+import Engineering from "./routes/engineering";
 function App() {
   return (
     <div>
-      <p>test</p>
+      <Engineering/>
     </div>
   );
 }
