@@ -1,6 +1,6 @@
 import apiService from "../services/apiService";
 import { useEffect, useState } from "react";
-import Craft from "../components/craft";
+import Craft from "../components/Craft";
 
 const Engineering = () => {
   const [items, setItems] = useState({});
