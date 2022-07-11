@@ -1,27 +1,16 @@
-import Enchant from "../components/Enchant";
-import { Grid, Box } from "@mui/material";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import EnchantRow from "./EnchantRow";
 
-const Enchants = ({ levels, spells, items, select, allLevels }) => {
-  const style = {
-    display: "flex",
-    margin: "0.5em",
-    backgroundColor: "grey"
-  };
+const Enchants = ({ levels, spells, items, change, allLevels }) => {
   return (
-    <div>
-      {levels.map((k) => (
-        <Grid style={style} key={`${k.start}-${k.end}r`}>
-          <div>{`${k.start}-${k.end}`}</div>
-          <Enchant
-            level={k}
-            spells={spells}
-            items={items}
-            levels={allLevels}
-            select={select}
-          />
-        </Grid>
-      ))}
-    </div>
+    <Table>
+      <TableBody>
+        {levels.map((k) => (
+          <EnchantRow key={`${k.start}-${k.end}r`} level={k} spells={spells} items={items} change={change} levels={allLevels}/>
+        ))}
+      </TableBody>
+    </Table>
   );
 };
 

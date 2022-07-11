@@ -4,6 +4,8 @@ import useEnchanting from "../hooks/useEnchanting";
 import Calculate from "../components/Calculate";
 import Enchants from "../components/Enchants";
 import { coppersToString } from "../utils/helper";
+import Container from "@mui/material/Container";
+import BannedItems from "../components/BannedItems";
 
 const Enchanting = () => {
   const [items, setItems] = useState({});
@@ -26,7 +28,7 @@ const Enchanting = () => {
     calculate(spells, items, from, to);
   };
 
-  const handleSelect = (level, index) => {
+  const handleChange = (level, index) => {
     select(level, index);
   };
 
@@ -53,19 +55,37 @@ const Enchanting = () => {
   });
 
   return (
-    <div>
-      <Calculate onClick={handleCalculate} />
-      {displayedLevels && (
-        <Enchants
-          levels={displayedLevels}
-          select={handleSelect}
-          items={items}
-          spells={spells}
-          allLevels={levels}
-        />
-      )}
-      {totalCost > 0 && <div>total: {coppersToString(totalCost)}</div>}
-    </div>
+    <Container
+      sx={{
+        display: "flex",
+        flexDirection: "row",
+      }}
+    >
+      <Container
+        sx={{
+          flexDirection: "column",
+        }}
+      >
+        <Calculate onClick={handleCalculate} />
+        {displayedLevels && (
+          <Enchants
+            levels={displayedLevels}
+            items={items}
+            spells={spells}
+            allLevels={levels}
+            change={handleChange}
+          />
+        )}
+        {totalCost > 0 && <div>total: {coppersToString(totalCost)}</div>}
+      </Container>
+      <Container
+        sx={{
+          flexDirection: "column",
+        }}
+      >
+        <BannedItems />
+      </Container>
+    </Container>
   );
 };
 
