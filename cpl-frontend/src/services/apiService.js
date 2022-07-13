@@ -6,11 +6,16 @@ const getItems = async (prof) => {
   return data;
 }
 
+const getLimited = async (prof) => {
+  const { data } = await axios.get(`${configs.API_URL}/${prof}/limited`);
+  return data;
+}
+
 const getSpells = async (prof) => {
   const { data } = await axios.get(`${configs.API_URL}/${prof}/spells`);
   return data;
 }
 
-const apiService = { getItems, getSpells };
+const apiService = { getItems, getSpells, getLimited };
 
 export default apiService;

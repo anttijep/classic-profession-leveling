@@ -1,9 +1,9 @@
 import Modal from "@mui/material/Modal";
 import Button from "@mui/material/Button";
-import Box from "@mui/material/Box";
-import ListItem from "@mui/material/ListItem";
+import Grid from "@mui/material/Box";
 import { useState } from "react";
 import Enchant from "./Enchant";
+import Container from "@mui/material/Container";
 
 const ChangeSpellModal = ({ level, possible, spells, items, change }) => {
   const [open, setOpen] = useState(false);
@@ -21,20 +21,39 @@ const ChangeSpellModal = ({ level, possible, spells, items, change }) => {
     boxShadow: 24,
     overflow: "scroll",
     p: 4,
-  }
+  };
   return (
-    <div>
+    <Container>
       <Button onClick={handleOpen}>Change</Button>
       <Modal open={open} onClose={handleClose}>
-        <Box sx={style}>
+        <Grid container sx={style}>
           {possible.map((p) => {
-            return <ListItem key={`${level}${spells[p.id].name}`}>
-              <Button onClick={() => change(level, p.id)}>Change</Button><Enchant level={p} items={items} spells={spells}/>
-            </ListItem>;
+            return (
+              <Grid
+                style={{ margin: "1em" }}
+                item
+                key={`${level}${spells[p.id].name}`}
+              >
+                <Enchant
+                  style={{ flexGrow: 1 }}
+                  level={p}
+                  items={items}
+                  spells={spells}
+                />
+                <Button
+                  style={{ marginTop: "5px" }}
+                  color="primary"
+                  variant="contained"
+                  onClick={() => change(level, p.id)}
+                >
+                  Use
+                </Button>
+              </Grid>
+            );
           })}
-        </Box>
+        </Grid>
       </Modal>
-    </div>
+    </Container>
   );
 };
 

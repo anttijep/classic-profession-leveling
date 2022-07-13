@@ -24,6 +24,20 @@ Example spell:
     "sour": 1 // source where to learn the item
 }
 
+sour = {
+    "unknown": 0x1,
+    "crafted": 0x2,
+    "drop": 0x4,
+    "quest": 0x8,
+    "vendor": 0x10,
+    "trainer": 0x20,
+    "crafted": 0x40,
+    "reserved": 0x80,
+    "reserved": 0x100,
+    "reserved": 0x200,
+    "reserved": 0x400,    
+}
+
 Example item:
 {
     "name": "Iron Ore", // name of the item

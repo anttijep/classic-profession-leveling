@@ -4,8 +4,10 @@ import TableCell from "@mui/material/TableCell";
 import ExpandLevel from "./ExpandLevel";
 
 import SvgMore from "@mui/icons-material/ExpandMore";
+import SvgLess from "@mui/icons-material/ExpandLess";
 import IconButton from "@mui/material/IconButton";
 import { useState } from "react";
+import { Typography } from "@mui/material";
 const EnchantRow = ({ level, spells, items, change, levels }) => {
   const [expand, setExpand] = useState(false);
   const toggle = () => {
@@ -15,7 +17,7 @@ const EnchantRow = ({ level, spells, items, change, levels }) => {
     <>
       <TableRow>
         <TableCell>
-          {`${level.start}-${level.end}`}
+          <Typography>{`${level.start}-${level.end}`}</Typography>
         </TableCell>
         <TableCell>
           <Enchant
@@ -27,11 +29,19 @@ const EnchantRow = ({ level, spells, items, change, levels }) => {
         </TableCell>
         <TableCell>
           <IconButton onClick={toggle}>
-            <SvgMore  />
+            {(expand && <SvgLess />) || <SvgMore />}
           </IconButton>
         </TableCell>
       </TableRow>
-      {expand && <ExpandLevel level={level} levels={levels} spells={spells} items={items} change={change} />}
+      {expand && (
+        <ExpandLevel
+          level={level}
+          levels={levels}
+          spells={spells}
+          items={items}
+          change={change}
+        />
+      )}
     </>
   );
 };

@@ -4,10 +4,12 @@ import { cloneDeep } from "lodash";
 
 const useEnchanting = () => {
   const [levels, setLevels] = useState([]);
+  const [success, setSuccess] = useState(true);
 
-  const calculate = (spells, items, start, end) => {
-    const cheapest = getCheapest(spells, items, start, end);
+  const calculate = (spells, items, start, end, source, banned) => {
+    const [cheapest, reachedEnd] = getCheapest(spells, items, start, end, source, banned);
     setLevels(cheapest);
+    setSuccess(reachedEnd);
   };
   const select = (level, id) => {
     if (!levels[level]) {
@@ -26,7 +28,7 @@ const useEnchanting = () => {
     }
     console.log(`Failed to select ${level}, ${id}`);
   };
-  return { levels, calculate, select };
+  return { levels, success, calculate, select };
 };
 
 export default useEnchanting;

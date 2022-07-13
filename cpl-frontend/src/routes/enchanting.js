@@ -3,13 +3,16 @@ import { useEffect, useState } from "react";
 import useEnchanting from "../hooks/useEnchanting";
 import Calculate from "../components/Calculate";
 import Enchants from "../components/Enchants";
-import { coppersToString } from "../utils/helper";
+import { coppersToString, groupLevels } from "../utils/helper";
 import Container from "@mui/material/Container";
-import BannedItems from "../components/BannedItems";
+import BannedSpells from "../components/BannedSpells";
+import { Typography } from "@mui/material";
+import AllowedSources from "../components/AllowedSources";
 
 const Enchanting = () => {
   const [items, setItems] = useState({});
   const [spells, setSpells] = useState({});
+  const [banned, setBanned] = useState({});
   const { levels, calculate, select } = useEnchanting();
   useEffect(() => {
     (async () => {
@@ -20,39 +23,26 @@ const Enchanting = () => {
       const data = await apiService.getItems("enchanting");
       setItems(data);
     })();
+    (async () => {
+      const data = await apiService.getLimited("enchanting");
+      setBanned(data);
+    })();
   }, []);
   if (Object.keys(items).length === 0 || Object.keys(spells).length === 0) {
     return null;
   }
   const handleCalculate = (from, to) => {
-    calculate(spells, items, from, to);
+    calculate(spells, items, from, to, 0, banned);
   };
 
   const handleChange = (level, index) => {
     select(level, index);
   };
+  const handleAddBan = (id) => {
+    setBanned(banned.concat({ id: id, name: spells[id].name }));
+  };
 
-  const displayedLevels = [];
-  let totalCost = 0;
-
-  const indices = Object.keys(levels);
-  indices.sort((a, b) => a - b);
-
-  indices.forEach((i) => {
-    if (displayedLevels.length === 0) {
-      displayedLevels.push({ ...levels[i][0] });
-      totalCost = levels[i][0].cost;
-    } else {
-      let last = displayedLevels.length - 1;
-      totalCost += levels[i][0].cost;
-      if (displayedLevels[last].id === levels[i][0].id) {
-        ++displayedLevels[last].end;
-        displayedLevels[last].cost += levels[i][0].cost;
-      } else {
-        displayedLevels.push({ ...levels[i][0] });
-      }
-    }
-  });
+  const [displayedLevels, totalCost] = groupLevels(levels);
 
   return (
     <Container
@@ -76,14 +66,17 @@ const Enchanting = () => {
             change={handleChange}
           />
         )}
-        {totalCost > 0 && <div>total: {coppersToString(totalCost)}</div>}
+        {totalCost > 0 && (
+          <Typography>total: {coppersToString(totalCost)}</Typography>
+        )}
       </Container>
       <Container
         sx={{
           flexDirection: "column",
         }}
       >
-        <BannedItems />
+        <AllowedSources />
+        <BannedSpells onAdd={handleAddBan} spells={spells} banned={banned} />
       </Container>
     </Container>
   );

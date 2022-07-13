@@ -1,12 +1,13 @@
-import { Box } from "@mui/material";
 import { coppersToString } from "../utils/helper";
+import Card from "@mui/material/Card";
+import Typography from "@mui/material/Typography";
 
 const SpellInfo = ({ style, name, cost }) => {
   return (
-    <Box style={style}>
-      <div>{name}</div>
-      <div>{coppersToString(cost)}</div>
-    </Box>
+    <Card style={style}>
+      <Typography>{name}</Typography>
+      <Typography>{coppersToString(cost)}</Typography>
+    </Card>
   );
 };
 
